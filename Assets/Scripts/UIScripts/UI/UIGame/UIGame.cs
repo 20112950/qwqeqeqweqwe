@@ -38,6 +38,12 @@ public class UIGame : UIBase
         base.OnShow(baseParam);
     }
 
+    public override void OnClose()
+    {
+        base.OnClose();
+        AdMobManager.Instance.RemoveBanner();
+    }
+
     private void Undo(GameObject obj)
     {
        

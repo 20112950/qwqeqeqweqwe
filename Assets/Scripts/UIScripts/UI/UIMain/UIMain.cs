@@ -31,12 +31,35 @@ public class UIMain : UIBase
 
     private void StartClassicGame(GameObject obj)
     {
-        UIManager.Instance.Show(emUIWindow.emUIWindow_Game,true);
+        //#if UNITY_EDITOR
+        //        UIManager.Instance.Show(emUIWindow.emUIWindow_Game, true);
+        //        LevelManager.instance.CreateMaps(GameMode.CLASSIC);
+        //#else
+        //          if (AdMobManager.Instance.ad.isInterstitialReady())
+        //        {
+        //            UIManager.Instance.Show(emUIWindow.emUIWindow_Game, true);
+        //            LevelManager.instance.CreateMaps(GameMode.CLASSIC);
+        //        }
+        //#endif
+        AdMobManager.Instance.ShowBanner();
+        UIManager.Instance.Show(emUIWindow.emUIWindow_Game, true);
         LevelManager.instance.CreateMaps(GameMode.CLASSIC);
+
     }
 
     private void StartDeformationGame(GameObject obj)
     {
+        //#if UNITY_EDITOR
+        //        UIManager.Instance.Show(emUIWindow.emUIWindow_Game, true);
+        //        LevelManager.instance.CreateMaps(GameMode.DEFORMATION);
+        //#else
+        //        if (AdMobManager.Instance.ad.isInterstitialReady())
+        //        {
+        //            UIManager.Instance.Show(emUIWindow.emUIWindow_Game, true);
+        //            LevelManager.instance.CreateMaps(GameMode.DEFORMATION);
+        //        }
+        //#endif
+        AdMobManager.Instance.ShowBanner();
         UIManager.Instance.Show(emUIWindow.emUIWindow_Game, true);
         LevelManager.instance.CreateMaps(GameMode.DEFORMATION);
     }

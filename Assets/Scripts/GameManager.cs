@@ -13,5 +13,10 @@ public class GameManager : MonoBehaviour {
         FSoundManager.PreloadSound("drop");
         DontDestroyOnLoad(this);
     }
-	
+
+
+    private void Start()
+    {
+        
+    }
 }
