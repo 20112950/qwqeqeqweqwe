@@ -29,21 +29,22 @@ public class Item : MonoBehaviour {
 
     public void SetItemType(int type)
     {
-        if (type <= 6)
+        if (type <= 7)
         {
             item_type = (ItemType)type;
             number.text = type.ToString();
             current_item_sprite.color = item_sprite_color[type - 1];
         }else
         {
-            number.text = (type + 1).ToString();
+            item_type = (ItemType)type;
+            number.text = type.ToString();
         }
    
     }
 
     public void SetItemSynType(int type)
     {
-        if (type <= 6)
+        if (type <= 7)
             synthesis_result_image.color = item_sprite_color[type - 1];
     }
 
@@ -85,6 +86,9 @@ public enum ItemType
     FOUR,
     FIVE,
     SIX,
+    THEVEN,
+    EIGHT,
+    NIGHT,
 }
 
 

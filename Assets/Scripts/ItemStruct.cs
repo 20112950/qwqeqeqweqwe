@@ -65,7 +65,6 @@ public class ItemStruct {
     {
         int number = LevelManager.instance.GetCurrentMaxNumber();
         int range = Random.Range(1, 1000);
-        return 2;
         if (number <= 2)
         {
             if (range < 500)

@@ -112,7 +112,7 @@ public class LevelManager : MonoBehaviour {
 
     public void ProcessGetSqualItems(Square squares)
     {
-        if (!squares.square_checked && squares.item!=null)
+        if (squares != null && !squares.square_checked &&  squares.item!=null)
         {
             List<Square> neighbor_square = new List<Square>();
             squares.square_checked = true;
@@ -189,7 +189,6 @@ public class LevelManager : MonoBehaviour {
         }else
         {
             Debug.Log("finish");
-            return;
         }
         ProcessGetSqualItems(square);
         if (checked_squares.Count > 0)
@@ -218,11 +217,23 @@ public class LevelManager : MonoBehaviour {
                         {
                             queue.Enqueue(generate_square);
                         }
+                        else if(first_square.item != null)
+                        {
+                            Square[] temp = SortArrary(queue.ToArray());
+                            queue.Clear();
+                            for (int i = 0; i < temp.Length; i++)
+                            {
+                                queue.Enqueue(temp[i]);
+                            }
+                        }
                     }
                     else
                     {
                         queue.Enqueue(generate_square);
                     }
+                    RemoveSquareFromQueue(queue);
+                }else
+                {
                     RemoveSquareFromQueue(queue);
                 }
             });
@@ -441,11 +452,7 @@ public class LevelManager : MonoBehaviour {
         {
             CombineSquare(checked_squares[i],(t)=> 
             {
-                if (t != null)
-                {
-                    //genetate_squares.Add(t);
-                    generate_callback(t);
-                }
+                generate_callback(t);
             });
         }   
     }
@@ -504,15 +511,38 @@ public class LevelManager : MonoBehaviour {
 
     private IEnumerator PlaySyntheticResultItr(Square square ,System.Action<Square> generate_callback)
     {
-        square.item.current_item_sprite.enabled = false;
-        square.item.SetItemSynType((int)square.item.item_type + 1);
-        square.item.synthesis_result.gameObject.SetActive(true);
-        square.item.synthesis_result.Play("beiheccheng_1",0,0);
-        yield return new WaitForSeconds(0.5f);
-        square.item.SetItemType((int)square.item.item_type + 1);
-        square.item.synthesis_result.gameObject.SetActive(false);
-        square.item.current_item_sprite.enabled = true;
-        generate_callback(square);
+        if ((int)square.item.item_type == 8)
+        {
+            List<Square> remove_around = GetAroundSquares(square);
+            for (int i = 0; i < remove_around.Count; i++)
+            {
+                if(remove_around[i]!=null && remove_around[i].item != null)
+                {
+                    DestroyImmediate(remove_around[i].item.gameObject);
+                }
+            }
+            DestroyImmediate(square.item.gameObject);
+            yield return new WaitForSeconds(1);
+            generate_callback(null);
+        }
+        else
+        {
+            square.item.SetItemType((int)square.item.item_type + 1);
+            generate_callback(square);
+            square.item.current_item_sprite.enabled = false;
+            square.item.SetItemSynType((int)square.item.item_type);
+            square.item.synthesis_result.gameObject.SetActive(true);
+            square.item.synthesis_result.Play("beiheccheng_1", 0, 0);
+            yield return new WaitForSeconds(0.4f);
+            if(square!=null && square.item != null)
+            {
+                square.item.synthesis_result.gameObject.SetActive(false);
+                square.item.current_item_sprite.enabled = true;
+            }
+          
+        }
+       
+       
     }
 
     private void DelayCall(float time , System.Action callback)

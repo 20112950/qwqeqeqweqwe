@@ -31,7 +31,6 @@ public class ItemStructManager  {
     {
         ItemStruct item_struct = new ItemStruct();
         int range = UnityEngine.Random.Range(0, 70);
-        range = 5;
         if (range <=10)
             item_struct.CreateItemStruct(ItemStructType.ONE, item_prefab);
         if (range >10 && range<=30)
