@@ -65,6 +65,7 @@ public class ItemStruct {
     {
         int number = LevelManager.instance.GetCurrentMaxNumber();
         int range = Random.Range(1, 1000);
+        return 8;
         if (number <= 2)
         {
             if (range < 500)
@@ -77,7 +78,8 @@ public class ItemStruct {
             
         }else
         {
-            range = Random.Range(10, (number+1)*10);
+            number =number < 7 ? number + 1 : number;
+            range = Random.Range(10, number*10);
             return range/10;
         }
        

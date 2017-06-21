@@ -37,6 +37,7 @@ public class Item : MonoBehaviour {
         }else
         {
             item_type = (ItemType)type;
+            current_item_sprite.color = item_sprite_color[type - 1];
             number.text = type.ToString();
         }
    
