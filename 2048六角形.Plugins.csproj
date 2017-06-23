@@ -90,10 +90,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Plugins\AdmobAPI\AdPosition.cs" />
+    <Compile Include="Assets\Plugins\AdmobAPI\AdSize.cs" />
+    <Compile Include="Assets\Plugins\AdmobAPI\Admob.cs" />
+    <Compile Include="Assets\Plugins\AdmobAPI\AdmobEvent.cs" />
+    <Compile Include="Assets\Plugins\AdmobAPI\AdmobGender.cs" />
+    <Compile Include="Assets\Plugins\AdmobAPI\AdmobListenerProxy.cs" />
+    <Compile Include="Assets\Plugins\AdmobAPI\IAdmobListener.cs" />
+    <Compile Include="Assets\Plugins\AdmobAPI\MonoPInvokeCallbackAttribute.cs" />
     <Compile Include="Assets\Plugins\DOTween\Examples\Basics.cs" />
     <Compile Include="Assets\Plugins\DOTween\Examples\Sequences.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
     <None Include="Assets\Plugins\DOTween\DOTween.XML" />
     <None Include="Assets\Plugins\DOTween\DOTween43.xml" />
     <None Include="Assets\Plugins\DOTween\DOTween46.xml" />

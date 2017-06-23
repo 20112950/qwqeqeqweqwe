@@ -103,6 +103,8 @@
     <Compile Include="Assets\Scripts\ItemStructManager.cs" />
     <Compile Include="Assets\Scripts\LevelManager.cs" />
     <Compile Include="Assets\Scripts\Map.cs" />
+    <Compile Include="Assets\Scripts\New Folder\AdMobManager.cs" />
+    <Compile Include="Assets\Scripts\New Folder\UMManager.cs" />
     <Compile Include="Assets\Scripts\Sound\FSoundManager.cs" />
     <Compile Include="Assets\Scripts\Square.cs" />
     <Compile Include="Assets\Scripts\SquareBlock.cs" />
@@ -124,8 +126,15 @@
     <Compile Include="Assets\Scripts\UIScripts\Util\GPerformance.cs" />
     <Compile Include="Assets\Scripts\UIScripts\Util\ObjectPool.cs" />
     <Compile Include="Assets\Scripts\UIScripts\Util\TaskManager.cs" />
+    <Compile Include="Assets\TestCase\TestCase.cs" />
+    <Compile Include="Assets\UmengGameAnalytics\Example\Example.cs" />
+    <Compile Include="Assets\UmengGameAnalytics\Scripts\Analytics.cs" />
+    <Compile Include="Assets\UmengGameAnalytics\Scripts\GA.cs" />
+    <Compile Include="Assets\UmengGameAnalytics\Scripts\UmengManager.cs" />
+    <Compile Include="Assets\admobdemo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Plugins\Android\AndroidManifest.xml" />
     <None Include="Assets\Plugins\DOTween\DOTween.XML" />
     <None Include="Assets\Plugins\DOTween\DOTween43.xml" />
     <None Include="Assets\Plugins\DOTween\DOTween46.xml" />
