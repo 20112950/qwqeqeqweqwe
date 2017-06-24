@@ -47,6 +47,30 @@ public class ItemStructManager  {
         //}
     }
 
+    public void TrashItemStruct(float time, System.Action callback)
+    {
+        if(LevelManager.game_handle_state == GameHandleState.NULL)
+        {
+            LevelManager.game_handle_state = GameHandleState.Trash_Item_Struct;
+            LevelManager.instance.StartCoroutine(TrashItemStructItr(time, callback));
+        }
+     
+    }
+
+    public IEnumerator TrashItemStructItr(float time ,System.Action callback)
+    {
+        if (current_item_struct != null)
+        {
+            GameObject.DestroyImmediate(current_item_struct.transform.gameObject);
+        }
+        yield return new WaitForSeconds(time);
+        if (callback!=null)
+        {
+            callback();
+        }
+        LevelManager.game_handle_state = GameHandleState.NULL;
+    }
+
     public void RegistEvent(GameObject item_struct_background)
     {
         EventTriggerListener.Get(item_struct_background).onDown = OnDownItemStruct;

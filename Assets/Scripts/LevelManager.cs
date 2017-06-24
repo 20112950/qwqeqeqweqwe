@@ -73,6 +73,7 @@ public class LevelManager : MonoBehaviour {
         struct_manager.CreateItemStruct(GetItemPrefab());
 
     }
+
     public GameObject GetSquarePrefab()
     {
         switch (this.game_mode)
@@ -924,6 +925,14 @@ public class LevelManager : MonoBehaviour {
 
     }
 
+    public void TrashItemStruct(float time)
+    {
+        this.struct_manager.TrashItemStruct(time, () =>
+        {
+            this.struct_manager.CreateItemStruct(GetItemPrefab());
+        });
+    }
+
 }
 
 public enum GameState
@@ -941,6 +950,7 @@ public enum GameHandleState
     Eliminating,
     DRAGING_SQUARE,
     DRAG_SQUARE_FINISHED,
+    Trash_Item_Struct,
 }
 
 public enum GameMode

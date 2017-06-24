@@ -51,7 +51,7 @@ public class UIGame : UIBase
 
     private void Trash(GameObject obj)
     {
-
+        LevelManager.instance.TrashItemStruct(0.5f);
     }
 
     private void Hammer(GameObject obj)
