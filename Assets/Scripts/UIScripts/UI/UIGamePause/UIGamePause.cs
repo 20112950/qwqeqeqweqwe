@@ -7,6 +7,11 @@ public class UIGamePause : UIBase
     private GameObject _close;
 
     private GameObject _main_panel;
+
+    private GameObject _settings;
+
+    private GameObject _reset;
+
     public UIGamePause() : base(emUIWindow.emUIWindow_GamePause, emUIType.emUIType_POP)
     {
     }
@@ -18,10 +23,14 @@ public class UIGamePause : UIBase
             return false;
         }
         Transform tran = m_rootObj.transform;
-        _close = tran.FindChild("close").gameObject;
-        _main_panel = tran.FindChild("main_panel").gameObject;
+        _close = tran.FindChild("Integrated/all/Close").gameObject;
+        _main_panel = tran.FindChild("Integrated/all/bottom/home").gameObject;
+        _settings = tran.FindChild("Integrated/all/bottom/settings").gameObject;
+        _reset = tran.FindChild("Integrated/all/bottom/reset").gameObject;
         EventTriggerListener.Get(_close).onClick = PauseClose;
         EventTriggerListener.Get(_main_panel).onClick = MainPanel;
+        EventTriggerListener.Get(_settings).onClick = Setting;
+        EventTriggerListener.Get(_reset).onClick = Reset;
         return true;
     }
 
@@ -37,7 +46,16 @@ public class UIGamePause : UIBase
 
     private void MainPanel(GameObject obj)
     {
-        Close();
         //UIManager.Instance.Back();
+    }
+
+    private void Setting(GameObject obj)
+    {
+
+    }
+
+    private void Reset(GameObject obj)
+    {
+
     }
 }

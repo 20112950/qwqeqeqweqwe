@@ -15,6 +15,8 @@ public class Item : MonoBehaviour {
 
     public Text number;
 
+    public GameObject hammer;
+
     public Animator synthesis;
 
     public Animator synthesis_result;
@@ -75,6 +77,12 @@ public class Item : MonoBehaviour {
             }
         }
         
+    }
+
+    public void ShowHammer(bool state)
+    {
+        this.hammer.transform.localRotation = this.number.transform.localRotation;
+        this.hammer.SetActive(state);
     }
 }
 

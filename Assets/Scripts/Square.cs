@@ -34,6 +34,22 @@ public class Square : MonoBehaviour{
         transform.localRotation = Quaternion.identity;
         transform.localScale = Vector3.one;
         transform.gameObject.SetActive(true);
+        EventTriggerListener.Get(gameObject).onClick = OnClickSquare;
+    }
+
+    private void OnClickSquare(GameObject obj)
+    {
+        if (this.item != null)
+        {
+            GameObject.Destroy(this.item.gameObject);
+            this.item = null;
+            LevelManager.game_handle_state = GameHandleState.NULL;
+        }else if (this.square_block != null)
+        {
+            GameObject.Destroy(this.square_block.gameObject);
+            this.square_block = null;
+            LevelManager.game_handle_state = GameHandleState.NULL;
+        }
     }
 
     public void MatchedItemStruct(Item collider)

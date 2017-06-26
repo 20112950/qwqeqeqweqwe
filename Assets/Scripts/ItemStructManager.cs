@@ -161,6 +161,7 @@ public class ItemStructManager  {
                 if (matched_squares[i] != null)
                 {
                     matched_squares[i].item = matched_squares[i].match_struct_item;
+                    matched_squares[i].item.square = matched_squares[i];
                     matched_squares[i].item.transform.SetParent(LevelManager.instance.item_parent);
                     matched_squares[i].item.gameObject.GetComponent<CircleCollider2D>().enabled = false;
                 }

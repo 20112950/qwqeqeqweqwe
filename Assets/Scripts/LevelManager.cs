@@ -422,6 +422,7 @@ public class LevelManager : MonoBehaviour {
                 SquareBlock block = square_block_obj.GetComponent<SquareBlock>();
                 square_block_obj.transform.SetParent(this.square_block_parent);
                 this.squares[_next_block_pisition].square_block = block;
+                this.squares[_next_block_pisition].square_block.square = this.squares[_next_block_pisition];
                 square_block_obj.transform.localScale = Vector3.one;
                 square_block_obj.transform.localRotation = Quaternion.identity;
                 square_block_obj.transform.localPosition = this.squares[_next_block_pisition].transform.localPosition;
@@ -933,6 +934,28 @@ public class LevelManager : MonoBehaviour {
         });
     }
 
+    public bool ShowHammers(bool state)
+    {
+        bool show_state = false;
+        if (this.squares != null)
+        {
+            for (int i = 0; i < this.squares.Length; i++)
+            {
+                if (this.squares[i].item != null)
+                {
+                    this.squares[i].item.ShowHammer(state);
+                    show_state = true;
+                }
+                else if (this.squares[i].square_block != null)
+                {
+                    this.squares[i].square_block.ShowHammer(state);
+                    show_state = true;
+                }
+            }
+        }
+        return show_state;
+    }
+
 }
 
 public enum GameState
@@ -951,6 +974,7 @@ public enum GameHandleState
     DRAGING_SQUARE,
     DRAG_SQUARE_FINISHED,
     Trash_Item_Struct,
+    Hammer,
 }
 
 public enum GameMode

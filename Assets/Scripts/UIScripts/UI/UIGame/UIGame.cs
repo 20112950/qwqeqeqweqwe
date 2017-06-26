@@ -11,6 +11,9 @@ public class UIGame : UIBase
     private GameObject _hammer;
 
     private GameObject _pause;
+
+    private bool hammer_state = false;
+
     public UIGame() : base(emUIWindow.emUIWindow_Game, emUIType.emUIType_Normal)
     {
     }
@@ -56,7 +59,21 @@ public class UIGame : UIBase
 
     private void Hammer(GameObject obj)
     {
-
+        if (LevelManager.game_handle_state == GameHandleState.NULL || LevelManager.game_handle_state == GameHandleState.Hammer )
+        {
+            hammer_state = !hammer_state;
+            if (!LevelManager.instance.ShowHammers(hammer_state))
+            {
+                hammer_state = !hammer_state;
+                LevelManager.game_handle_state = GameHandleState.NULL;
+            }
+            else
+            {
+                LevelManager.game_handle_state = GameHandleState.Hammer;
+            }
+        }
+      
+        
     }
 
     private void Pause(GameObject obj)
