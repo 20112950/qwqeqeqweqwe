@@ -21,6 +21,7 @@ public abstract class UIBase
         { emUIWindow.emUIWindow_Main,           "UIMain"},
         { emUIWindow.emUIWindow_Game , "UIGame" },
         { emUIWindow.emUIWindow_GamePause , "UIGamePause" },
+        { emUIWindow.emUIWindow_Setting , "UI_Set" }
     };
 
     public static Transform FindDeepChild(Transform parent, string _childName, bool includeInactive = true)

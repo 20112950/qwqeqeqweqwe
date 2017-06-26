@@ -51,7 +51,7 @@ public class UIGamePause : UIBase
 
     private void Setting(GameObject obj)
     {
-
+        UIManager.Instance.Show(emUIWindow.emUIWindow_Setting, false);
     }
 
     private void Reset(GameObject obj)

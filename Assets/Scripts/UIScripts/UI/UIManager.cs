@@ -19,6 +19,7 @@ public enum emUIWindow
     emUIWindow_Main,        //主城界面
     emUIWindow_Game, // 游戏中
     emUIWindow_GamePause, // 游戏暂停
+    emUIWindow_Setting,
     SwitchWindow,               //黑屏过渡
     emUIWindow_Max,
 }
@@ -123,11 +124,12 @@ public class UIManager
         m_UIList[(int)emUIWindow.emUIWindow_Main] = new UIMain();
         m_UIList[(int)emUIWindow.emUIWindow_Game] = new UIGame();
         m_UIList[(int)emUIWindow.emUIWindow_GamePause] = new UIGamePause();
-        //m_UIList[(int)emUIWindow.emUIWindow_Two] = new UITwo();
-        //m_UIList[(int)emUIWindow.emUIWindow_UIPopOne] = new UIPopOne();
-        //m_UIList[(int)emUIWindow.SwitchWindow] = new UISwitchWindow();
+        m_UIList[(int)emUIWindow.emUIWindow_Setting] = new UIGameSetting(); 
+         //m_UIList[(int)emUIWindow.emUIWindow_Two] = new UITwo();
+         //m_UIList[(int)emUIWindow.emUIWindow_UIPopOne] = new UIPopOne();
+         //m_UIList[(int)emUIWindow.SwitchWindow] = new UISwitchWindow();
 
-        m_stkNavigateUI = new Stack<UIBase>();
+         m_stkNavigateUI = new Stack<UIBase>();
     }
 
     public UIBase InitUI(emUIWindow wnd)
