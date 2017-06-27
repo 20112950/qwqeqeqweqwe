@@ -53,6 +53,10 @@ public class LevelManager : MonoBehaviour {
     private int remove_count = 0;
     // 下一次生产砖块的位置
     private int _next_block_pisition = 0;
+
+    public int score = 0;
+
+ 
     private void Awake()
     {
         instance = this;
@@ -71,7 +75,91 @@ public class LevelManager : MonoBehaviour {
             ShowPreSquareBlock(true);
         });
         struct_manager.CreateItemStruct(GetItemPrefab());
+        score = 0;
+    }
 
+    public void ResetGame()
+    {
+        score = 0;
+        for (int i = 0; i < this.squares.Length; i++)
+        {
+            if (this.squares[i].item)
+            {
+                DestroyImmediate(this.squares[i].item.gameObject);
+                this.squares[i].item = null;
+            }
+            if (this.squares[i].square_block)
+            {
+                DestroyImmediate(this.squares[i].square_block.gameObject);
+                this.squares[i].square_block = null;
+            }
+            this.squares[i].square_checked = false;
+            this.squares[i].square_checked2 = false;
+            this.squares[i].search_last_square.Clear();
+        }
+        checked_squares.Clear();
+        // reset need removed squares queue
+        queue_remove.Clear();
+        if (this.squares != null)
+        {
+            for (int i = 0; i < this.squares.Length; i++)
+            {
+                DestroyImmediate(this.squares[i].gameObject);
+            }
+        }
+        if (this.struct_manager.current_item_struct.item != null)
+        {
+            for (int i = 0; i < this.struct_manager.current_item_struct.item.Length; i++)
+            {
+                DestroyImmediate(this.struct_manager.current_item_struct.item[i].gameObject);
+            }
+        }
+        if (this.game_mode == GameMode.CLASSIC)
+        {
+            CreateMaps(GameMode.CLASSIC);
+        }
+        else
+        {
+            CreateMaps(GameMode.DEFORMATION);
+        }
+    }
+
+    public void DestroyGameAll()
+    {
+        score = 0;
+        for (int i = 0; i < this.squares.Length; i++)
+        {
+            if (this.squares[i].item)
+            {
+                DestroyImmediate(this.squares[i].item.gameObject);
+                this.squares[i].item = null;
+            }
+            if (this.squares[i].square_block)
+            {
+                DestroyImmediate(this.squares[i].square_block.gameObject);
+                this.squares[i].square_block = null;
+            }
+            this.squares[i].square_checked = false;
+            this.squares[i].square_checked2 = false;
+            this.squares[i].search_last_square.Clear();
+        }
+        checked_squares.Clear();
+        // reset need removed squares queue
+        queue_remove.Clear();
+        if (this.squares != null)
+        {
+            for (int i = 0; i < this.squares.Length; i++)
+            {
+                DestroyImmediate(this.squares[i].gameObject);
+            }
+        }
+        if (this.struct_manager.current_item_struct.item != null)
+        {
+            for (int i = 0; i < this.struct_manager.current_item_struct.item.Length; i++)
+            {
+                DestroyImmediate(this.struct_manager.current_item_struct.item[i].gameObject);
+            }
+        }
     }
 
     public GameObject GetSquarePrefab()
@@ -195,6 +283,7 @@ public class LevelManager : MonoBehaviour {
         if (checked_squares.Count > 0)
         {
             Square generate_square = null;
+            int remove_square_number = checked_squares[0].Count;
             RemoveSquares(checked_squares[0], (t) => 
             {
                 generate_square = t;
@@ -239,6 +328,7 @@ public class LevelManager : MonoBehaviour {
                 }
             });
             remove_count++;
+            UIGame.HandleAddScore(CalculateScore(remove_square_number, remove_count));
             //DelayCall(wait_remove_squares_time+0.6f, () =>
             //{
             //    for (int i = 0; i < this.squares.Length; i++)
@@ -289,47 +379,6 @@ public class LevelManager : MonoBehaviour {
                 {
                     Debug.Log("fail");
                     FSoundManager.PlaySound("Cheers");
-                    for (int i = 0; i < this.squares.Length; i++)
-                    {
-                        if (this.squares[i].item)
-                        {
-                            DestroyImmediate(this.squares[i].item.gameObject);
-                            this.squares[i].item = null;
-                        }
-                        if (this.squares[i].square_block)
-                        {
-                            DestroyImmediate(this.squares[i].square_block.gameObject);
-                            this.squares[i].square_block = null;
-                        }
-                        this.squares[i].square_checked = false;
-                        this.squares[i].square_checked2 = false;
-                        this.squares[i].search_last_square.Clear();
-                    }
-                    checked_squares.Clear();
-                    // reset need removed squares queue
-                    queue_remove.Clear();
-                    if (this.squares != null)
-                    {
-                        for (int i = 0; i < this.squares.Length; i++)
-                        {
-                            DestroyImmediate(this.squares[i].gameObject);
-                        }
-                    }
-                    if (this.struct_manager.current_item_struct.item != null)
-                    {
-                        for (int i = 0; i < this.struct_manager.current_item_struct.item.Length; i++)
-                        {
-                            DestroyImmediate(this.struct_manager.current_item_struct.item[i].gameObject);
-                        }
-                    }
-                    if (this.game_mode == GameMode.CLASSIC)
-                    {
-                        CreateMaps(GameMode.DEFORMATION);
-                    }else
-                    {
-                        CreateMaps(GameMode.CLASSIC);
-                    }
-                 
                 }
             }
             else
@@ -954,6 +1003,11 @@ public class LevelManager : MonoBehaviour {
             }
         }
         return show_state;
+    }
+
+    private int CalculateScore(int remove_square_count ,int remove_count)
+    {
+        return remove_square_count* remove_count;
     }
 
 }

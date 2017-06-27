@@ -46,7 +46,9 @@ public class UIGamePause : UIBase
 
     private void MainPanel(GameObject obj)
     {
-        //UIManager.Instance.Back();
+        UIManager.Instance.Back();
+        Close();
+        LevelManager.instance.DestroyGameAll();
     }
 
     private void Setting(GameObject obj)
@@ -56,6 +58,8 @@ public class UIGamePause : UIBase
 
     private void Reset(GameObject obj)
     {
-
+        Close();
+        LevelManager.instance.ResetGame();
+        UIGame.HandleAddScore(0);
     }
 }

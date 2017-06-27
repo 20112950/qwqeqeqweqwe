@@ -39,17 +39,23 @@ public class Square : MonoBehaviour{
 
     private void OnClickSquare(GameObject obj)
     {
-        if (this.item != null)
+        if(LevelManager.game_handle_state == GameHandleState.Hammer)
         {
-            GameObject.Destroy(this.item.gameObject);
-            this.item = null;
-            LevelManager.game_handle_state = GameHandleState.NULL;
-        }else if (this.square_block != null)
-        {
-            GameObject.Destroy(this.square_block.gameObject);
-            this.square_block = null;
-            LevelManager.game_handle_state = GameHandleState.NULL;
+            UIGame _ui_game = UIManager.Instance.GetUI(emUIWindow.emUIWindow_Game) as UIGame;
+            if (this.item != null)
+            {
+                GameObject.Destroy(this.item.gameObject);
+                this.item = null;
+                _ui_game.Hammer(null);
+            }
+            else if (this.square_block != null)
+            {
+                GameObject.Destroy(this.square_block.gameObject);
+                this.square_block = null;
+                _ui_game.Hammer(null);
+            }
         }
+        
     }
 
     public void MatchedItemStruct(Item collider)
