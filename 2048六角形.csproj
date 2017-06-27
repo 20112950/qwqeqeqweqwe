@@ -119,6 +119,7 @@
     <Compile Include="Assets\Scripts\UIScripts\UI\UIBase.cs" />
     <Compile Include="Assets\Scripts\UIScripts\UI\UIGame\UIGame.cs" />
     <Compile Include="Assets\Scripts\UIScripts\UI\UIGamePause\UIGamePause.cs" />
+    <Compile Include="Assets\Scripts\UIScripts\UI\UIGameSetting\UIGameSetting.cs" />
     <Compile Include="Assets\Scripts\UIScripts\UI\UIMain\UIMain.cs" />
     <Compile Include="Assets\Scripts\UIScripts\UI\UIManager.cs" />
     <Compile Include="Assets\Scripts\UIScripts\UI\UISwitchWindow.cs" />
