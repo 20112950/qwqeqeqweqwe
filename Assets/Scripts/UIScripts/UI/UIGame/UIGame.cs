@@ -64,7 +64,12 @@ public class UIGame : UIBase
 
     private void Undo(GameObject obj)
     {
-       
+        if (LevelManager.game_handle_state == GameHandleState.NULL)
+        {
+            LevelManager.game_handle_state = GameHandleState.Undo;
+            LevelManager.instance.Undo();
+        }
+            
     }
 
     private void Trash(GameObject obj)

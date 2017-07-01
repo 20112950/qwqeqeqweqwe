@@ -40,11 +40,27 @@ public class ItemStructManager  {
         if (range >50 && range<=70)
             item_struct.CreateItemStruct(ItemStructType.TWO_RIGHT_INCLIED, item_prefab);
         current_item_struct = item_struct;
-        //for (int i = 0; i < current_item_struct.item.Length; i++)
-        //{
-        //    EventTriggerListener.Get(current_item_struct.item[i].gameObject).onDragBegin = OnDragBeginItemStruct;
-        //    EventTriggerListener.Get(current_item_struct.item[i].gameObject).onDragEnd = OnDragEndItemStruct;
-        //}
+    }
+
+    public void ReCreateItemStruct(GameObject item_prefab ,ItemType[] item_types ,ItemStructType struct_type)
+    {
+        GameObject.DestroyImmediate(current_item_struct.transform.gameObject);
+        ItemStruct item_struct = new ItemStruct();
+        item_struct.CreateItemStructByItemType( struct_type , item_prefab ,item_types);
+        current_item_struct = item_struct;
+    }
+
+    public void SetSquareItemByType(GameObject item_prefab ,Transform parent , Square square ,ItemType type)
+    {
+        Item item = new Item();
+        GameObject item_obj = GameObject.Instantiate(item_prefab);
+        item = item_obj.GetComponent<Item>();
+        item.transform.SetParent(parent);
+        item.transform.localPosition = square.transform.localPosition;
+        item.transform.localRotation = Quaternion.identity;
+        item.transform.localScale = Vector3.one;
+        item.SetItemType((int)type);
+        square.item = item;
     }
 
     public void TrashItemStruct(float time, System.Action callback)
@@ -150,11 +166,51 @@ public class ItemStructManager  {
         DragEndItemStruct();
     }
 
+    public void SaveCurrentDropItemDatas(GameMode game_mode)
+    {
+        ItemData[] item_data;
+        if(game_mode == GameMode.CLASSIC)
+        {
+            item_data = new ItemData[19];
+            
+        }else
+        {
+            item_data = new ItemData[37];
+
+        }
+        for (int i = 0; i < LevelManager.instance.squares.Length; i++)
+        {
+            ItemType type = ItemType.NONE;
+            SquareBlockType block_type = SquareBlockType.None;
+            if (LevelManager.instance.squares[i].item != null)
+            {
+                type = LevelManager.instance.squares[i].item.item_type;
+            }
+            if (LevelManager.instance.squares[i].square_block != null)
+            {
+                block_type = LevelManager.instance.squares[i].square_block.square_block_type;
+            }
+            ItemData data = new ItemData
+            {
+                hang_index = LevelManager.instance.squares[i].hang,
+                lie_index = LevelManager.instance.squares[i].lie,
+                type = type,
+                block_type = block_type,
+
+            };
+            item_data[i] = data;
+        }
+        GameDataCenter.SaveCurrentDropItemDatas(LevelManager.instance.game_mode, item_data);
+    }
+
     private void DragEndItemStruct()
     {
         draging = false;
         if (LevelManager.instance.CheckMatchItemStructSquare())
         {
+            GameDataCenter.SetLastScore(LevelManager.instance.game_mode, LevelManager.instance.score);
+            GameDataCenter.SetLastItemStruct(LevelManager.instance.game_mode, current_item_struct.item , current_item_struct.item_struct_type);
+            SaveCurrentDropItemDatas(LevelManager.instance.game_mode);
             Square[] matched_squares = LevelManager.instance.GetMatchedSquares();
             for (int i = 0; i < matched_squares.Length; i++)
             {
@@ -187,7 +243,6 @@ public class ItemStructManager  {
 
                 }
             }
-
         }
         else
         {

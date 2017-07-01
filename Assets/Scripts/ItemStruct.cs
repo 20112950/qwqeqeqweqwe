@@ -19,18 +19,41 @@ public class ItemStruct {
         switch (type)
         {
             case ItemStructType.ONE:
-                CreateOne(item_prefab);
+                CreateOne(item_prefab , type ,(ItemType)CreateItemType());
                 break;
             case ItemStructType.TWO_HORIZONTAL:
             case ItemStructType.TWO_LEFT_INCLINED:
             case ItemStructType.TWO_RIGHT_INCLIED:
-                CreateTwo(item_prefab , type);
+                ItemType[] item_type = new ItemType[2];
+                item_type[0] = (ItemType) CreateItemType();
+                item_type[1] = (ItemType)CreateItemType();
+                CreateTwo(item_prefab , type , item_type);
                 break;
         }
 
     }
 
-    private void CreateOne(GameObject item_prefab)
+    public void CreateItemStructByItemType(ItemStructType type, GameObject item_prefab ,ItemType[] item_types)
+    {
+        transform = new GameObject().transform;
+        transform.SetParent(LevelManager.instance.item_struct_parent);
+        transform.localScale = Vector3.one;
+        transform.localPosition = Vector3.zero;
+        switch (type)
+        {
+            case ItemStructType.ONE:
+                CreateOne(item_prefab, type ,item_types[0]);
+                break;
+            case ItemStructType.TWO_HORIZONTAL:
+            case ItemStructType.TWO_LEFT_INCLINED:
+            case ItemStructType.TWO_RIGHT_INCLIED:
+                CreateTwo(item_prefab, type, item_types);
+                break;
+        }
+
+    }
+
+    private void CreateOne(GameObject item_prefab , ItemStructType item_struct_type ,ItemType type)
     {
         item = new Item[1];
         GameObject item_obj = GameObject.Instantiate(item_prefab);
@@ -39,10 +62,11 @@ public class ItemStruct {
         item[0].transform.localPosition = Vector3.zero;
         item[0].transform.localRotation = Quaternion.identity;
         item[0].transform.localScale = Vector3.one;
-        item[0].SetItemType(CreateItemType());
+        item[0].SetItemType((int)type);
+        this.item_struct_type = item_struct_type;
     }
 
-    private void CreateTwo(GameObject item_prefab , ItemStructType type)
+    private void CreateTwo(GameObject item_prefab , ItemStructType type ,ItemType[] item_types)
     {
         item = new Item[2];
         GameObject item_obj = GameObject.Instantiate(item_prefab);
@@ -50,13 +74,13 @@ public class ItemStruct {
         item[0].transform.SetParent(transform);
         item[0].transform.localRotation = Quaternion.identity;
         item[0].transform.localScale = Vector3.one;
-        item[0].SetItemType(CreateItemType());
+        item[0].SetItemType((int)item_types[0]);
         GameObject item_obj1 = GameObject.Instantiate(item_prefab);
         item[1] = item_obj1.GetComponent<Item>();
         item[1].transform.SetParent(transform);
         item[1].transform.localRotation = Quaternion.identity;
         item[1].transform.localScale = Vector3.one;
-        item[1].SetItemType(CreateItemType());
+        item[1].SetItemType((int)item_types[1]);
         SetItemTwoPosition(type);
 
     }

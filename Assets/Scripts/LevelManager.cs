@@ -378,6 +378,14 @@ public class LevelManager : MonoBehaviour {
                 if (!CheckEliminate(struct_manager.current_item_struct))
                 {
                     Debug.Log("fail");
+                    if (game_mode == GameMode.CLASSIC)
+                    {
+                        GameDataCenter.classic_finish = true;
+                    }
+                    else
+                    {
+                        GameDataCenter.deformation_finish = true;
+                    }
                     FSoundManager.PlaySound("Cheers");
                 }
             }
@@ -469,6 +477,7 @@ public class LevelManager : MonoBehaviour {
             {
                 GameObject square_block_obj = Instantiate(this.square_block_prefab);
                 SquareBlock block = square_block_obj.GetComponent<SquareBlock>();
+                block.SetBlockType(SquareBlockType.ONEBLOCK);
                 square_block_obj.transform.SetParent(this.square_block_parent);
                 this.squares[_next_block_pisition].square_block = block;
                 this.squares[_next_block_pisition].square_block.square = this.squares[_next_block_pisition];
@@ -983,6 +992,106 @@ public class LevelManager : MonoBehaviour {
         });
     }
 
+    public bool Undo()
+    {
+        bool undo_success = false;
+        ItemData[] item_datas;
+        if (game_mode == GameMode.CLASSIC)
+        {
+            item_datas = GameDataCenter.classic_last_item_datas;
+        }
+        else
+        {
+            item_datas = GameDataCenter.deformation_last_item_datas;
+        }
+        if (item_datas == null)
+        {
+            LevelManager.game_handle_state = GameHandleState.NULL;
+            return undo_success;
+        }
+        for (int i = 0; i < item_datas.Length; i++)
+        {
+            if(this.squares[i].item==null && item_datas[i].type!= ItemType.NONE)
+            {
+                struct_manager.SetSquareItemByType(GetItemPrefab(),item_parent, this.squares[i], item_datas[i].type);
+                undo_success = true;
+            }
+            if(this.squares[i].item != null && item_datas[i].type == ItemType.NONE)
+            {
+                DestroyImmediate(this.squares[i].item.gameObject);
+                this.squares[i].item = null;
+                undo_success = true;
+            }
+            if(this.squares[i].item != null && this.squares[i].item.item_type != item_datas[i].type)
+            {
+                DestroyImmediate(this.squares[i].item.gameObject);
+                this.squares[i].item = null;
+                struct_manager.SetSquareItemByType(GetItemPrefab(), item_parent, this.squares[i], item_datas[i].type);
+                undo_success = true;
+            }
+
+            if (this.squares[i].square_block == null && item_datas[i].block_type != SquareBlockType.None)
+            {
+                SetBlockSquare(this.squares[i] , item_datas[i].block_type);
+                undo_success = true;
+            }
+            if (this.squares[i].square_block != null && item_datas[i].block_type == SquareBlockType.None)
+            {
+                DestroyImmediate(this.squares[i].square_block.gameObject);
+                this.squares[i].square_block = null;
+                undo_success = true;
+            }
+            if (this.squares[i].square_block != null && this.squares[i].square_block.square_block_type != item_datas[i].block_type)
+            {
+                DestroyImmediate(this.squares[i].square_block.gameObject);
+                this.squares[i].square_block = null;
+                SetBlockSquare(this.squares[i], item_datas[i].block_type);
+                undo_success = true;
+            }
+        }
+
+        // 生成itemstruct
+        ItemType[] item_types;
+        ItemStructType item_type_struct;
+        if (game_mode == GameMode.CLASSIC)
+        {
+            item_types = GameDataCenter.class_last_item_struct;
+            item_type_struct = GameDataCenter.class_last_item_struct_type;
+        }
+        else
+        {
+            item_types = GameDataCenter.deformation_last_item_struct;
+            item_type_struct = GameDataCenter.deformation_last_item_struct_type;
+        }
+
+        struct_manager.ReCreateItemStruct(GetItemPrefab(), item_types, item_type_struct);
+
+        // 还原分数
+        if (game_mode == GameMode.CLASSIC)
+        {
+            score = GameDataCenter.classic_score;
+        }
+        else
+        {
+            score = GameDataCenter.deformation_score;
+        }
+        UIGame.HandleAddScore(0);
+        LevelManager.game_handle_state = GameHandleState.NULL;
+        return undo_success;
+    }
+
+    private void SetBlockSquare(Square square , SquareBlockType type)
+    {
+        GameObject square_block_obj = Instantiate(this.square_block_prefab);
+        SquareBlock block = square_block_obj.GetComponent<SquareBlock>();
+        block.SetBlockType(type);
+        square_block_obj.transform.SetParent(this.square_block_parent);
+        square.square_block = block;
+        square_block_obj.transform.localScale = Vector3.one;
+        square_block_obj.transform.localRotation = Quaternion.identity;
+        square_block_obj.transform.localPosition = square.transform.localPosition;
+    }
+
     public bool ShowHammers(bool state)
     {
         bool show_state = false;
@@ -1029,6 +1138,7 @@ public enum GameHandleState
     DRAG_SQUARE_FINISHED,
     Trash_Item_Struct,
     Hammer,
+    Undo,
 }
 
 public enum GameMode
