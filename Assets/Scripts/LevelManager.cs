@@ -386,6 +386,7 @@ public class LevelManager : MonoBehaviour {
                     {
                         GameDataCenter.deformation_finish = true;
                     }
+                    UIManager.Instance.Show(emUIWindow.emUIWindow_GamePause, false);
                     FSoundManager.PlaySound("Cheers");
                 }
             }

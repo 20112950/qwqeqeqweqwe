@@ -52,9 +52,8 @@ public class ItemStructManager  {
 
     public void SetSquareItemByType(GameObject item_prefab ,Transform parent , Square square ,ItemType type)
     {
-        Item item = new Item();
         GameObject item_obj = GameObject.Instantiate(item_prefab);
-        item = item_obj.GetComponent<Item>();
+        Item item = item_obj.GetComponent<Item>();
         item.transform.SetParent(parent);
         item.transform.localPosition = square.transform.localPosition;
         item.transform.localRotation = Quaternion.identity;
