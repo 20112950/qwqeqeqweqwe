@@ -97,6 +97,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\CSVReader.cs" />
+    <Compile Include="Assets\Scripts\GameDataCenter.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\Item.cs" />
     <Compile Include="Assets\Scripts\ItemStruct.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Assets\Scripts\Map.cs" />
     <Compile Include="Assets\Scripts\New Folder\AdMobManager.cs" />
     <Compile Include="Assets\Scripts\New Folder\UMManager.cs" />
+    <Compile Include="Assets\Scripts\PlayerPrefsX.cs" />
     <Compile Include="Assets\Scripts\Sound\FSoundManager.cs" />
     <Compile Include="Assets\Scripts\Square.cs" />
     <Compile Include="Assets\Scripts\SquareBlock.cs" />
